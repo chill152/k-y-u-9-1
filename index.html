@@ -22,19 +22,9 @@
     --border: #eee;
     --gradient: linear-gradient(135deg, var(--pink), var(--purple));
   }
-
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
   html { scroll-behavior: smooth; }
-
-  body {
-    font-family: 'Quicksand', sans-serif;
-    color: var(--dark);
-    background: #f8f6ff;
-    overflow-x: hidden;
-  }
-
-  /* SCROLLBAR */
+  body { font-family: 'Quicksand', sans-serif; color: var(--dark); background: #f8f6ff; overflow-x: hidden; }
   ::-webkit-scrollbar { width: 6px; }
   ::-webkit-scrollbar-track { background: #f1f1f1; }
   ::-webkit-scrollbar-thumb { background: var(--pink); border-radius: 10px; }
@@ -44,754 +34,167 @@
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     display: flex; align-items: center; justify-content: space-between;
     padding: 18px 60px;
-    background: rgba(255,255,255,0.85);
-    backdrop-filter: blur(12px);
+    background: rgba(255,255,255,0.88); backdrop-filter: blur(12px);
     border-bottom: 1px solid rgba(232,164,200,0.2);
-    transition: all 0.3s;
   }
-
-  .logo {
-    font-family: 'Dancing Script', cursive;
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: var(--dark);
-    letter-spacing: 0.5px;
-  }
-
-  .nav-links {
-    display: flex; gap: 36px; list-style: none;
-  }
-
-  .nav-links a {
-    text-decoration: none;
-    color: var(--dark);
-    font-size: 0.9rem;
-    font-weight: 500;
-    position: relative;
-    transition: color 0.3s;
-  }
-
-  .nav-links a::after {
-    content: '';
-    position: absolute; bottom: -4px; left: 0;
-    width: 0; height: 2px;
-    background: var(--gradient);
-    border-radius: 2px;
-    transition: width 0.3s;
-  }
-
+  .logo { font-family: 'Dancing Script', cursive; font-size: 1.8rem; font-weight: 700; color: var(--dark); }
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a { text-decoration: none; color: var(--dark); font-size: 0.9rem; font-weight: 500; position: relative; transition: color 0.3s; }
+  .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: var(--gradient); border-radius: 2px; transition: width 0.3s; }
   .nav-links a:hover { color: #b060a0; }
   .nav-links a:hover::after { width: 100%; }
 
   /* HERO */
-  #trang-chu {
-    position: relative; height: 100vh;
-    display: flex; align-items: center; justify-content: center;
-    overflow: hidden;
-  }
+  #trang-chu { position: relative; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  .hero-bg { position: absolute; inset: 0; background: linear-gradient(135deg,#c8b4f0,#f0b8d4,#b4d4f0); }
+  .hero-shape { position: absolute; border-radius: 50%; opacity: 0.3; animation: floatShape 6s ease-in-out infinite; }
+  .hero-shape:nth-child(1) { width:300px;height:300px;background:var(--pink);top:-80px;right:-80px;animation-delay:0s; }
+  .hero-shape:nth-child(2) { width:200px;height:200px;background:var(--blue);bottom:-50px;left:-50px;animation-delay:2s; }
+  .hero-shape:nth-child(3) { width:150px;height:150px;background:var(--yellow);top:20%;left:10%;animation-delay:4s; }
+  @keyframes floatShape { 0%,100%{transform:translateY(0) scale(1);} 50%{transform:translateY(-20px) scale(1.05);} }
+  .hero-overlay { position:absolute;inset:0;background:linear-gradient(180deg,rgba(180,130,230,0.25) 0%,rgba(140,80,200,0.45) 100%); }
+  .hero-content { position:relative;z-index:2;text-align:center;padding:0 20px;animation:fadeUp 1s ease forwards; }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(40px);} to{opacity:1;transform:translateY(0);} }
+  .hero-title { font-family:'Dancing Script',cursive; font-size:clamp(3rem,8vw,7rem);font-weight:700;color:white; text-shadow:2px 4px 20px rgba(0,0,0,0.2),0 0 60px rgba(255,180,220,0.4);line-height:1.1;margin-bottom:20px; }
+  .hero-subtitle { font-size:1.1rem;color:rgba(255,255,255,0.9);font-style:italic;margin-bottom:40px;text-shadow:0 2px 8px rgba(0,0,0,0.2); }
+  .hero-btn { display:inline-block;padding:14px 40px;background:rgba(255,255,255,0.25);backdrop-filter:blur(10px);border:1.5px solid rgba(255,255,255,0.5);border-radius:50px;color:white;font-family:'Quicksand',sans-serif;font-size:0.95rem;font-weight:600;text-decoration:none;transition:all 0.3s; }
+  .hero-btn:hover { background:rgba(255,255,255,0.4);transform:translateY(-3px);box-shadow:0 15px 40px rgba(0,0,0,0.15); }
+  .scroll-indicator { position:absolute;bottom:40px;left:50%;transform:translateX(-50%);text-align:center;color:rgba(255,255,255,0.7);font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;animation:bounce 2s ease-in-out infinite; }
+  .scroll-mouse { width:24px;height:38px;border:2px solid rgba(255,255,255,0.6);border-radius:12px;margin:8px auto 0;position:relative; }
+  .scroll-mouse::after { content:'';position:absolute;top:6px;left:50%;transform:translateX(-50%);width:3px;height:8px;background:rgba(255,255,255,0.8);border-radius:2px;animation:scrollDot 2s ease-in-out infinite; }
+  @keyframes scrollDot { 0%{top:6px;opacity:1;} 100%{top:20px;opacity:0;} }
+  @keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0);} 50%{transform:translateX(-50%) translateY(-8px);} }
 
-  .hero-bg {
-    position: absolute; inset: 0;
-    background: linear-gradient(135deg, #667eea22 0%, #f093fb22 50%, #4facfe22 100%),
-                linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.35) 100%);
-    background-color: #c8e6ff;
-  }
-
-  /* Animated floating shapes */
-  .hero-shape {
-    position: absolute;
-    border-radius: 50%;
-    opacity: 0.3;
-    animation: floatShape 6s ease-in-out infinite;
-  }
-
-  .hero-shape:nth-child(1) { width: 300px; height: 300px; background: var(--pink); top: -80px; right: -80px; animation-delay: 0s; }
-  .hero-shape:nth-child(2) { width: 200px; height: 200px; background: var(--blue); bottom: -50px; left: -50px; animation-delay: 2s; }
-  .hero-shape:nth-child(3) { width: 150px; height: 150px; background: var(--yellow); top: 20%; left: 10%; animation-delay: 4s; }
-
-  @keyframes floatShape {
-    0%, 100% { transform: translateY(0) scale(1); }
-    50% { transform: translateY(-20px) scale(1.05); }
-  }
-
-  /* Fake hero photo grid background */
-  .hero-photo-bg {
-    position: absolute; inset: 0;
-    background:
-      linear-gradient(180deg, rgba(240,220,255,0.6) 0%, rgba(180,140,220,0.4) 100%);
-    display: flex; align-items: center; justify-content: center;
-  }
-
-  .hero-photo-grid {
-    position: absolute; inset: 0;
-    background-image:
-      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255,255,255,0.05) 39px, rgba(255,255,255,0.05) 40px),
-      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(255,255,255,0.05) 39px, rgba(255,255,255,0.05) 40px);
-  }
-
-  .hero-overlay {
-    position: absolute; inset: 0;
-    background: linear-gradient(180deg, rgba(200,180,240,0.3) 0%, rgba(150,100,200,0.5) 100%);
-  }
-
-  .hero-content {
-    position: relative; z-index: 2;
-    text-align: center;
-    padding: 0 20px;
-    animation: fadeUp 1s ease forwards;
-  }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(40px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .hero-title {
-    font-family: 'Dancing Script', cursive;
-    font-size: clamp(3rem, 8vw, 7rem);
-    font-weight: 700;
-    color: white;
-    text-shadow: 2px 4px 20px rgba(0,0,0,0.2), 0 0 60px rgba(255,180,220,0.4);
-    line-height: 1.1;
-    margin-bottom: 20px;
-    letter-spacing: -1px;
-  }
-
-  .hero-subtitle {
-    font-size: 1.1rem;
-    color: rgba(255,255,255,0.9);
-    font-weight: 400;
-    font-style: italic;
-    margin-bottom: 40px;
-    text-shadow: 0 2px 8px rgba(0,0,0,0.2);
-  }
-
-  .hero-btn {
-    display: inline-block;
-    padding: 14px 40px;
-    background: rgba(255,255,255,0.25);
-    backdrop-filter: blur(10px);
-    border: 1.5px solid rgba(255,255,255,0.5);
-    border-radius: 50px;
-    color: white;
-    font-family: 'Quicksand', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 600;
-    text-decoration: none;
-    transition: all 0.3s;
-    letter-spacing: 0.5px;
-  }
-
-  .hero-btn:hover {
-    background: rgba(255,255,255,0.4);
-    transform: translateY(-3px);
-    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-  }
-
-  .scroll-indicator {
-    position: absolute; bottom: 40px; left: 50%;
-    transform: translateX(-50%);
-    text-align: center;
-    color: rgba(255,255,255,0.7);
-    font-size: 0.75rem;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    animation: bounce 2s ease-in-out infinite;
-  }
-
-  .scroll-indicator .scroll-mouse {
-    width: 24px; height: 38px;
-    border: 2px solid rgba(255,255,255,0.6);
-    border-radius: 12px;
-    margin: 8px auto 0;
-    position: relative;
-  }
-
-  .scroll-mouse::after {
-    content: '';
-    position: absolute; top: 6px; left: 50%;
-    transform: translateX(-50%);
-    width: 3px; height: 8px;
-    background: rgba(255,255,255,0.8);
-    border-radius: 2px;
-    animation: scrollDot 2s ease-in-out infinite;
-  }
-
-  @keyframes scrollDot {
-    0% { top: 6px; opacity: 1; }
-    100% { top: 20px; opacity: 0; }
-  }
-
-  @keyframes bounce {
-    0%, 100% { transform: translateX(-50%) translateY(0); }
-    50% { transform: translateX(-50%) translateY(-8px); }
-  }
-
-  /* SECTION STYLES */
+  /* SECTION */
   section { padding: 100px 60px; }
-
-  .section-header {
-    text-align: center;
-    margin-bottom: 60px;
-  }
-
-  .section-title {
-    font-family: 'Dancing Script', cursive;
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    font-weight: 700;
-    color: var(--dark);
-    margin-bottom: 16px;
-  }
-
-  .section-divider {
-    width: 60px; height: 3px;
-    background: var(--gradient);
-    border-radius: 3px;
-    margin: 0 auto;
-  }
+  .section-header { text-align:center;margin-bottom:60px; }
+  .section-title { font-family:'Dancing Script',cursive;font-size:clamp(2.5rem,5vw,4rem);font-weight:700;color:var(--dark);margin-bottom:16px; }
+  .section-divider { width:60px;height:3px;background:var(--gradient);border-radius:3px;margin:0 auto; }
 
   /* MEMBERS */
-  #thanh-vien {
-    background: white;
-  }
-
-  .members-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 30px;
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-
-  .member-card {
-    text-align: center;
-    cursor: pointer;
-    transition: transform 0.3s;
-  }
-
-  .member-card:hover { transform: translateY(-8px); }
-
-  .member-photo {
-    width: 160px; height: 200px;
-    border-radius: 16px;
-    background: linear-gradient(135deg, var(--light-pink), #e8d4f8);
-    margin: 0 auto 14px;
-    overflow: hidden;
-    position: relative;
-    box-shadow: 0 10px 30px rgba(200,160,220,0.25);
-  }
-
-  .member-photo-placeholder {
-    width: 100%; height: 100%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 3rem;
-    color: rgba(180,140,200,0.5);
-  }
-
-  .member-name {
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: var(--dark);
-  }
-
-  .member-role {
-    font-size: 0.8rem;
-    color: var(--text-light);
-    margin-top: 4px;
-  }
+  #thanh-vien { background: white; }
+  .members-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:30px;max-width:1100px;margin:0 auto; }
+  .member-card { text-align:center;cursor:pointer;transition:transform 0.3s; }
+  .member-card:hover { transform:translateY(-8px); }
+  .member-photo { width:160px;height:200px;border-radius:16px;margin:0 auto 14px;overflow:hidden;position:relative;box-shadow:0 10px 30px rgba(200,160,220,0.25); }
+  .member-photo-placeholder { width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:3rem; }
+  .member-name { font-size:0.95rem;font-weight:600;color:var(--dark); }
+  .member-role { font-size:0.8rem;color:var(--text-light);margin-top:4px; }
 
   /* GALLERY */
-  #khoanh-khac {
-    background: #f8f6ff;
-  }
-
-  .gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: auto;
-    gap: 12px;
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-
-  .gallery-item {
-    border-radius: 12px;
-    overflow: hidden;
-    cursor: pointer;
-    position: relative;
-    transition: transform 0.3s;
-  }
-
-  .gallery-item:hover { transform: scale(1.02); }
-
-  .gallery-item:nth-child(1) { grid-column: span 2; }
-
-  .gallery-placeholder {
-    width: 100%; height: 220px;
-    background: linear-gradient(135deg, #e8d4f8, #f0e8ff);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 2rem;
-    color: rgba(180,140,200,0.4);
-  }
-
-  .gallery-item:nth-child(1) .gallery-placeholder { height: 280px; }
-
-  .gallery-overlay {
-    position: absolute; inset: 0;
-    background: rgba(180,120,220,0.0);
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.3s;
-    font-size: 1.5rem;
-    color: white;
-    opacity: 0;
-  }
-
-  .gallery-item:hover .gallery-overlay {
-    background: rgba(180,120,220,0.3);
-    opacity: 1;
-  }
+  #khoanh-khac { background: #f8f6ff; }
+  .gallery-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:1100px;margin:0 auto; }
+  .gallery-item { border-radius:12px;overflow:hidden;cursor:pointer;position:relative;transition:transform 0.3s; }
+  .gallery-item:hover { transform:scale(1.02); }
+  .gallery-item:nth-child(1) { grid-column:span 2; }
+  .gallery-placeholder { width:100%;height:220px;display:flex;align-items:center;justify-content:center;font-size:2rem; }
+  .gallery-item:nth-child(1) .gallery-placeholder { height:280px; }
+  .gallery-overlay { position:absolute;inset:0;background:rgba(180,120,220,0);display:flex;align-items:center;justify-content:center;transition:all 0.3s;font-size:1.5rem;color:white;opacity:0; }
+  .gallery-item:hover .gallery-overlay { background:rgba(180,120,220,0.3);opacity:1; }
 
   /* TIMELINE */
-  #dong-thoi-gian {
-    background: white;
-  }
-
-  .timeline {
-    max-width: 800px;
-    margin: 0 auto;
-    position: relative;
-  }
-
-  .timeline::before {
-    content: '';
-    position: absolute; left: 50%; top: 0; bottom: 0;
-    width: 2px;
-    background: linear-gradient(180deg, var(--pink), var(--purple), var(--blue));
-    transform: translateX(-50%);
-  }
-
-  .timeline-item {
-    display: flex;
-    margin-bottom: 50px;
-    position: relative;
-  }
-
-  .timeline-item:nth-child(even) { flex-direction: row-reverse; }
-
-  .timeline-content {
-    width: 45%;
-    padding: 24px;
-    background: var(--card-bg);
-    border-radius: 16px;
-    border: 1px solid var(--border);
-    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-    transition: transform 0.3s, box-shadow 0.3s;
-  }
-
-  .timeline-content:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 30px rgba(180,120,220,0.15);
-  }
-
-  .timeline-item:nth-child(odd) .timeline-content { margin-right: auto; }
-  .timeline-item:nth-child(even) .timeline-content { margin-left: auto; }
-
-  .timeline-dot {
-    position: absolute; left: 50%; top: 24px;
-    width: 14px; height: 14px;
-    background: var(--gradient);
-    border-radius: 50%;
-    transform: translateX(-50%);
-    border: 3px solid white;
-    box-shadow: 0 0 0 2px var(--pink);
-  }
-
-  .timeline-date {
-    font-size: 0.8rem;
-    font-weight: 700;
-    color: #b060a0;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 8px;
-  }
-
-  .timeline-title {
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: var(--dark);
-    margin-bottom: 8px;
-  }
-
-  .timeline-desc {
-    font-size: 0.88rem;
-    color: var(--text-light);
-    line-height: 1.6;
-  }
+  #dong-thoi-gian { background: white; }
+  .timeline { max-width:800px;margin:0 auto;position:relative; }
+  .timeline::before { content:'';position:absolute;left:50%;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--pink),var(--purple),var(--blue));transform:translateX(-50%); }
+  .timeline-item { display:flex;margin-bottom:50px;position:relative; }
+  .timeline-item:nth-child(even) { flex-direction:row-reverse; }
+  .timeline-content { width:45%;padding:24px;background:var(--card-bg);border-radius:16px;border:1px solid var(--border);box-shadow:0 4px 20px rgba(0,0,0,0.05);transition:transform 0.3s,box-shadow 0.3s; }
+  .timeline-content:hover { transform:translateY(-4px);box-shadow:0 12px 30px rgba(180,120,220,0.15); }
+  .timeline-item:nth-child(odd) .timeline-content { margin-right:auto; }
+  .timeline-item:nth-child(even) .timeline-content { margin-left:auto; }
+  .timeline-dot { position:absolute;left:50%;top:24px;width:14px;height:14px;background:var(--gradient);border-radius:50%;transform:translateX(-50%);border:3px solid white;box-shadow:0 0 0 2px var(--pink); }
+  .timeline-date { font-size:0.8rem;font-weight:700;color:#b060a0;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px; }
+  .timeline-title { font-size:1.05rem;font-weight:700;color:var(--dark);margin-bottom:8px; }
+  .timeline-desc { font-size:0.88rem;color:var(--text-light);line-height:1.6; }
 
   /* VIDEO */
-  #phim-ngan {
-    background: #f8f6ff;
-    text-align: center;
-  }
+  #phim-ngan { background: #f8f6ff; text-align:center; }
+  .video-container { max-width:800px;margin:0 auto;border-radius:20px;overflow:hidden;box-shadow:0 20px 60px rgba(180,120,220,0.2); }
+  .video-placeholder { width:100%;padding-top:56.25%;position:relative;background:#1a1a2e;cursor:pointer; }
+  .video-placeholder-inner { position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px; }
+  .play-btn { width:70px;height:70px;background:rgba(255,255,255,0.15);backdrop-filter:blur(10px);border-radius:50%;border:2px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;font-size:1.8rem;color:white;transition:all 0.3s;cursor:pointer; }
+  .play-btn:hover { background:rgba(255,255,255,0.25);transform:scale(1.1); }
+  .video-placeholder-inner p { color:rgba(255,255,255,0.6);font-size:0.9rem; }
 
-  .video-container {
-    max-width: 800px;
-    margin: 0 auto;
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 20px 60px rgba(180,120,220,0.2);
-  }
-
-  .video-placeholder {
-    width: 100%; padding-top: 56.25%;
-    position: relative;
-    background: #1a1a2e;
-    cursor: pointer;
-  }
-
-  .video-placeholder-inner {
-    position: absolute; inset: 0;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    gap: 16px;
-  }
-
-  .play-btn {
-    width: 70px; height: 70px;
-    background: rgba(255,255,255,0.15);
-    backdrop-filter: blur(10px);
-    border-radius: 50%;
-    border: 2px solid rgba(255,255,255,0.3);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.8rem;
-    color: white;
-    transition: all 0.3s;
-    cursor: pointer;
-  }
-
-  .play-btn:hover {
-    background: rgba(255,255,255,0.25);
-    transform: scale(1.1);
-  }
-
-  .video-placeholder-inner p {
-    color: rgba(255,255,255,0.6);
-    font-size: 0.9rem;
-  }
-
-  /* NOTES - Lưu Bút */
-  #luu-but {
-    background: white;
-  }
-
-  .notes-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-
-  .note-card {
-    padding: 24px 20px;
-    border-radius: 4px;
-    position: relative;
-    transition: transform 0.3s, box-shadow 0.3s;
-    cursor: pointer;
-    min-height: 150px;
-    display: flex; flex-direction: column; justify-content: space-between;
-  }
-
-  .note-card::before {
-    content: '📌';
-    position: absolute; top: -8px; right: 16px;
-    font-size: 1rem;
-  }
-
-  .note-card:hover {
-    transform: rotate(0deg) translateY(-6px);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.12);
-    z-index: 10;
-  }
-
-  .note-card:nth-child(5n+1) { background: #b5d8f7; transform: rotate(-1.5deg); }
-  .note-card:nth-child(5n+2) { background: #fdf5a6; transform: rotate(1deg); }
-  .note-card:nth-child(5n+3) { background: #f7b5d1; transform: rotate(-0.5deg); }
-  .note-card:nth-child(5n+4) { background: #b5f7c4; transform: rotate(1.5deg); }
-  .note-card:nth-child(5n+5) { background: #f7c5b5; transform: rotate(-1deg); }
-
-  .note-text {
-    font-family: 'Dancing Script', cursive;
-    font-size: 1rem;
-    color: #333;
-    line-height: 1.6;
-    flex: 1;
-  }
-
-  .note-author {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: #555;
-    margin-top: 12px;
-    font-style: italic;
-  }
-
-  /* ADD NOTE */
-  .add-note-section {
-    max-width: 600px;
-    margin: 50px auto 0;
-    text-align: center;
-  }
-
-  .add-note-btn {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 14px 32px;
-    background: var(--gradient);
-    border: none; border-radius: 50px;
-    color: white;
-    font-family: 'Quicksand', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s;
-    box-shadow: 0 8px 25px rgba(200,120,180,0.35);
-  }
-
-  .add-note-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 15px 35px rgba(200,120,180,0.45);
-  }
+  /* LƯU BÚT */
+  #luu-but { background: white; }
+  .notes-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:20px;max-width:1100px;margin:0 auto; }
+  .note-card { padding:24px 20px;border-radius:4px;position:relative;transition:transform 0.3s,box-shadow 0.3s;cursor:default;min-height:150px;display:flex;flex-direction:column;justify-content:space-between; }
+  .note-card::before { content:'📌';position:absolute;top:-8px;right:16px;font-size:1rem; }
+  .note-card:hover { transform:translateY(-6px) rotate(0deg) !important;box-shadow:0 15px 30px rgba(0,0,0,0.12);z-index:10; }
+  .note-card:nth-child(5n+1) { background:#b5d8f7;transform:rotate(-1.5deg); }
+  .note-card:nth-child(5n+2) { background:#fdf5a6;transform:rotate(1deg); }
+  .note-card:nth-child(5n+3) { background:#f7b5d1;transform:rotate(-0.5deg); }
+  .note-card:nth-child(5n+4) { background:#b5f7c4;transform:rotate(1.5deg); }
+  .note-card:nth-child(5n+5) { background:#f7c5b5;transform:rotate(-1deg); }
+  .note-text { font-family:'Dancing Script',cursive;font-size:1rem;color:#333;line-height:1.6;flex:1; }
+  .note-author { font-size:0.85rem;font-weight:600;color:#555;margin-top:12px;font-style:italic; }
+  .add-note-section { max-width:600px;margin:50px auto 0;text-align:center; }
+  .add-note-btn { display:inline-flex;align-items:center;gap:8px;padding:14px 32px;background:var(--gradient);border:none;border-radius:50px;color:white;font-family:'Quicksand',sans-serif;font-size:0.95rem;font-weight:600;cursor:pointer;transition:all 0.3s;box-shadow:0 8px 25px rgba(200,120,180,0.35); }
+  .add-note-btn:hover { transform:translateY(-3px);box-shadow:0 15px 35px rgba(200,120,180,0.45); }
 
   /* MODAL */
-  .modal-overlay {
-    position: fixed; inset: 0; z-index: 1000;
-    background: rgba(0,0,0,0.5);
-    display: flex; align-items: center; justify-content: center;
-    opacity: 0; pointer-events: none;
-    transition: opacity 0.3s;
-    backdrop-filter: blur(4px);
-  }
+  .modal-overlay { position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s;backdrop-filter:blur(4px); }
+  .modal-overlay.active { opacity:1;pointer-events:all; }
+  .modal { background:white;border-radius:20px;padding:40px;width:90%;max-width:480px;transform:scale(0.9);transition:transform 0.3s;box-shadow:0 30px 60px rgba(0,0,0,0.2); }
+  .modal-overlay.active .modal { transform:scale(1); }
+  .modal-title { font-family:'Dancing Script',cursive;font-size:1.8rem;color:var(--dark);margin-bottom:24px; }
+  .modal-input,.modal-textarea { width:100%;padding:12px 16px;border:1.5px solid var(--border);border-radius:10px;font-family:'Quicksand',sans-serif;font-size:0.9rem;color:var(--dark);outline:none;transition:border-color 0.3s;margin-bottom:14px; }
+  .modal-input:focus,.modal-textarea:focus { border-color:var(--pink); }
+  .modal-textarea { height:120px;resize:none; }
+  .modal-actions { display:flex;gap:12px;justify-content:flex-end;margin-top:8px; }
+  .btn-cancel { padding:10px 24px;border:1.5px solid var(--border);border-radius:50px;background:white;font-family:'Quicksand',sans-serif;font-size:0.9rem;cursor:pointer;transition:all 0.2s; }
+  .btn-cancel:hover { border-color:#ccc;background:#f5f5f5; }
+  .btn-submit { padding:10px 28px;background:var(--gradient);border:none;border-radius:50px;color:white;font-family:'Quicksand',sans-serif;font-size:0.9rem;font-weight:600;cursor:pointer;transition:all 0.3s;box-shadow:0 6px 18px rgba(200,120,180,0.35); }
+  .btn-submit:hover { transform:translateY(-2px); }
 
-  .modal-overlay.active { opacity: 1; pointer-events: all; }
+  /* ======= MUSIC PLAYER ======= */
+  .music-player { position:fixed;bottom:24px;right:24px;z-index:200; }
 
-  .modal {
-    background: white;
-    border-radius: 20px;
-    padding: 40px;
-    width: 90%;
-    max-width: 480px;
-    transform: scale(0.9);
-    transition: transform 0.3s;
-    box-shadow: 0 30px 60px rgba(0,0,0,0.2);
-  }
+  .music-fab { width:52px;height:52px;background:var(--gradient);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 8px 25px rgba(200,120,180,0.4);border:none;font-size:1.4rem;color:white;transition:transform 0.3s,box-shadow 0.3s; }
+  .music-fab:hover { transform:scale(1.1);box-shadow:0 12px 30px rgba(200,120,180,0.5); }
 
-  .modal-overlay.active .modal { transform: scale(1); }
+  .music-panel { position:absolute;bottom:66px;right:0;width:320px;background:white;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,0.18);overflow:hidden;transform-origin:bottom right;transform:scale(0.85) translateY(10px);opacity:0;pointer-events:none;transition:all 0.25s cubic-bezier(.4,0,.2,1); }
+  .music-panel.open { transform:scale(1) translateY(0);opacity:1;pointer-events:all; }
 
-  .modal-title {
-    font-family: 'Dancing Script', cursive;
-    font-size: 1.8rem;
-    color: var(--dark);
-    margin-bottom: 24px;
-  }
+  /* Header: now playing */
+  .mp-header { display:flex;align-items:center;gap:12px;padding:16px 16px 14px;border-bottom:1px solid #f0f0f0; }
+  .mp-art { width:54px;height:54px;border-radius:10px;background:linear-gradient(135deg,#c8a4e8,#e8a4c8);display:flex;align-items:center;justify-content:center;font-size:1.6rem;flex-shrink:0;box-shadow:0 4px 14px rgba(200,120,180,0.3); }
+  .mp-info { flex:1;min-width:0; }
+  .mp-song-name { font-size:0.95rem;font-weight:700;color:var(--dark);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:9px; }
+  .mp-controls { display:flex;align-items:center;gap:16px; }
+  .mp-controls button { background:none;border:none;cursor:pointer;color:#666;font-size:0.95rem;padding:0;display:flex;align-items:center;justify-content:center;transition:color 0.2s,transform 0.2s; }
+  .mp-controls button:hover { color:#b060a0;transform:scale(1.18); }
+  .mp-btn-play { width:30px!important;height:30px!important;background:var(--gradient)!important;border-radius:50%!important;color:white!important;font-size:0.78rem!important;box-shadow:0 4px 12px rgba(200,120,180,0.35); }
+  .mp-btn-play:hover { transform:scale(1.12)!important; }
+  .mp-close-btn { background:none;border:none;cursor:pointer;color:#bbb;font-size:1rem;padding:0;align-self:flex-start;line-height:1;transition:color 0.2s; }
+  .mp-close-btn:hover { color:#555; }
 
-  .modal-input, .modal-textarea {
-    width: 100%;
-    padding: 12px 16px;
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
-    font-family: 'Quicksand', sans-serif;
-    font-size: 0.9rem;
-    color: var(--dark);
-    outline: none;
-    transition: border-color 0.3s;
-    margin-bottom: 14px;
-  }
-
-  .modal-input:focus, .modal-textarea:focus { border-color: var(--pink); }
-  .modal-textarea { height: 120px; resize: none; }
-
-  .modal-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 8px; }
-
-  .btn-cancel {
-    padding: 10px 24px;
-    border: 1.5px solid var(--border);
-    border-radius: 50px;
-    background: white;
-    font-family: 'Quicksand', sans-serif;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .btn-cancel:hover { border-color: #ccc; background: #f5f5f5; }
-
-  .btn-submit {
-    padding: 10px 28px;
-    background: var(--gradient);
-    border: none;
-    border-radius: 50px;
-    color: white;
-    font-family: 'Quicksand', sans-serif;
-    font-size: 0.9rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s;
-    box-shadow: 0 6px 18px rgba(200,120,180,0.35);
-  }
-
-  .btn-submit:hover { transform: translateY(-2px); }
-
-  /* MUSIC PLAYER */
-  .music-player {
-    position: fixed; bottom: 24px; right: 24px; z-index: 200;
-  }
-
-  .music-btn {
-    width: 52px; height: 52px;
-    background: var(--gradient);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 8px 25px rgba(200,120,180,0.4);
-    transition: all 0.3s;
-    border: none;
-    font-size: 1.3rem;
-    color: white;
-  }
-
-  .music-btn:hover { transform: scale(1.1); }
-
-  .music-panel {
-    position: absolute; bottom: 70px; right: 0;
-    width: 300px;
-    background: white;
-    border-radius: 16px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.15);
-    overflow: hidden;
-    transform: scale(0.8) translateY(20px);
-    transform-origin: bottom right;
-    opacity: 0; pointer-events: none;
-    transition: all 0.3s;
-  }
-
-  .music-panel.open {
-    transform: scale(1) translateY(0);
-    opacity: 1; pointer-events: all;
-  }
-
-  .music-panel-header {
-    padding: 16px 20px;
-    background: var(--gradient);
-    color: white;
-    display: flex; align-items: center; gap: 12px;
-  }
-
-  .music-album-art {
-    width: 44px; height: 44px;
-    border-radius: 8px;
-    background: rgba(255,255,255,0.2);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.2rem;
-    flex-shrink: 0;
-  }
-
-  .music-info { flex: 1; min-width: 0; }
-
-  .music-title {
-    font-size: 0.9rem;
-    font-weight: 700;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .music-controls {
-    display: flex; gap: 16px; margin-top: 6px;
-    font-size: 1rem;
-  }
-
-  .music-controls button {
-    background: none; border: none; color: white;
-    cursor: pointer; font-size: 1rem; padding: 0;
-    transition: transform 0.2s;
-  }
-
-  .music-controls button:hover { transform: scale(1.2); }
-
-  .music-close {
-    background: none; border: none;
-    color: rgba(255,255,255,0.7);
-    cursor: pointer; font-size: 1.1rem; padding: 0;
-    transition: color 0.2s;
-  }
-
-  .music-close:hover { color: white; }
-
-  .music-playlist {
-    max-height: 200px;
-    overflow-y: auto;
-  }
-
-  .playlist-item {
-    display: flex; align-items: center; gap: 12px;
-    padding: 12px 20px;
-    cursor: pointer;
-    transition: background 0.2s;
-    border-bottom: 1px solid #f5f5f5;
-  }
-
-  .playlist-item:hover { background: #f8f6ff; }
-  .playlist-item.active { background: #f0eaff; }
-
-  .playlist-thumb {
-    width: 36px; height: 36px;
-    border-radius: 6px;
-    background: linear-gradient(135deg, var(--pink), var(--purple));
-    display: flex; align-items: center; justify-content: center;
-    font-size: 0.9rem;
-    flex-shrink: 0;
-  }
-
-  .playlist-name {
-    font-size: 0.88rem;
-    font-weight: 500;
-    color: var(--dark);
-  }
+  /* Playlist */
+  .mp-playlist { max-height:220px;overflow-y:auto;padding:6px 0; }
+  .mp-playlist::-webkit-scrollbar { width:4px; }
+  .mp-playlist::-webkit-scrollbar-thumb { background:var(--pink);border-radius:4px; }
+  .mp-item { display:flex;align-items:center;gap:12px;padding:9px 14px;cursor:pointer;transition:background 0.15s;border-radius:10px;margin:2px 6px; }
+  .mp-item:hover { background:#f5f0ff; }
+  .mp-item.active { background:#6d7fa3; }
+  .mp-item.active .mp-item-name { color:white;font-weight:700; }
+  .mp-thumb { width:40px;height:40px;border-radius:8px;background:linear-gradient(135deg,#d4c0f0,#f0c0dc);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0; }
+  .mp-item.active .mp-thumb { background:linear-gradient(135deg,#8898bb,#aabbd4); }
+  .mp-item-name { font-size:0.88rem;font-weight:500;color:var(--dark);white-space:nowrap;overflow:hidden;text-overflow:ellipsis; }
 
   /* FOOTER */
-  footer {
-    background: linear-gradient(135deg, #2d2d3d, #1a1a2e);
-    color: rgba(255,255,255,0.7);
-    text-align: center;
-    padding: 40px 60px;
-  }
+  footer { background:linear-gradient(135deg,#2d2d3d,#1a1a2e);color:rgba(255,255,255,0.7);text-align:center;padding:40px 60px; }
+  footer .footer-logo { font-family:'Dancing Script',cursive;font-size:2rem;color:white;margin-bottom:12px; }
+  footer p { font-size:0.85rem;line-height:1.8; }
+  footer .footer-hearts { font-size:1.2rem;margin:16px 0 8px;letter-spacing:4px; }
 
-  footer .footer-logo {
-    font-family: 'Dancing Script', cursive;
-    font-size: 2rem;
-    color: white;
-    margin-bottom: 12px;
-  }
+  /* FADE */
+  .fade-in { opacity:0;transform:translateY(30px);transition:opacity 0.6s ease,transform 0.6s ease; }
+  .fade-in.visible { opacity:1;transform:translateY(0); }
 
-  footer p { font-size: 0.85rem; line-height: 1.8; }
-
-  footer .footer-hearts {
-    font-size: 1.2rem;
-    margin: 16px 0 8px;
-    letter-spacing: 4px;
-  }
-
-  /* ANIMATIONS */
-  .fade-in {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-  }
-
-  .fade-in.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  /* TOAST */
+  .toast { position:fixed;bottom:90px;right:24px;z-index:999;background:#2d2d2d;color:white;padding:12px 20px;border-radius:10px;font-size:0.88rem;font-weight:500;box-shadow:0 8px 24px rgba(0,0,0,0.2);opacity:0;transform:translateY(10px);transition:all 0.3s;pointer-events:none; }
+  .toast.show { opacity:1;transform:translateY(0); }
 </style>
 </head>
 <body>
@@ -815,20 +218,14 @@
     <div class="hero-shape"></div>
     <div class="hero-shape"></div>
     <div class="hero-shape"></div>
-    <div class="hero-photo-bg">
-      <div class="hero-photo-grid"></div>
-      <div class="hero-overlay"></div>
-    </div>
+    <div class="hero-overlay"></div>
   </div>
   <div class="hero-content">
     <h1 class="hero-title">Thanh Xuân Của Chúng Ta</h1>
     <p class="hero-subtitle">"Những năm tháng rực rỡ dưới mái trường thân yêu"</p>
     <a href="#khoanh-khac" class="hero-btn">Khám phá kỷ niệm</a>
   </div>
-  <div class="scroll-indicator">
-    SCROLL
-    <div class="scroll-mouse"></div>
-  </div>
+  <div class="scroll-indicator">SCROLL<div class="scroll-mouse"></div></div>
 </section>
 
 <!-- THÀNH VIÊN -->
@@ -837,9 +234,7 @@
     <h2 class="section-title">Thành Viên</h2>
     <div class="section-divider"></div>
   </div>
-  <div class="members-grid" id="members-container">
-    <!-- Members will be injected by JS -->
-  </div>
+  <div class="members-grid" id="members-container"></div>
 </section>
 
 <!-- KHOẢNH KHẮC -->
@@ -849,30 +244,12 @@
     <div class="section-divider"></div>
   </div>
   <div class="gallery-grid fade-in">
-    <div class="gallery-item">
-      <div class="gallery-placeholder">🎓</div>
-      <div class="gallery-overlay">🔍</div>
-    </div>
-    <div class="gallery-item">
-      <div class="gallery-placeholder">🌸</div>
-      <div class="gallery-overlay">🔍</div>
-    </div>
-    <div class="gallery-item">
-      <div class="gallery-placeholder">📚</div>
-      <div class="gallery-overlay">🔍</div>
-    </div>
-    <div class="gallery-item">
-      <div class="gallery-placeholder">🎉</div>
-      <div class="gallery-overlay">🔍</div>
-    </div>
-    <div class="gallery-item">
-      <div class="gallery-placeholder">🏫</div>
-      <div class="gallery-overlay">🔍</div>
-    </div>
-    <div class="gallery-item">
-      <div class="gallery-placeholder">🌺</div>
-      <div class="gallery-overlay">🔍</div>
-    </div>
+    <div class="gallery-item"><div class="gallery-placeholder" style="background:linear-gradient(135deg,#e8d4f8,#f0e8ff)">🎓</div><div class="gallery-overlay">🔍</div></div>
+    <div class="gallery-item"><div class="gallery-placeholder" style="background:linear-gradient(135deg,#f8e4d4,#fce8f0)">🌸</div><div class="gallery-overlay">🔍</div></div>
+    <div class="gallery-item"><div class="gallery-placeholder" style="background:linear-gradient(135deg,#d4e8f8,#e4f0fc)">📚</div><div class="gallery-overlay">🔍</div></div>
+    <div class="gallery-item"><div class="gallery-placeholder" style="background:linear-gradient(135deg,#f8f4d4,#fdf8e8)">🎉</div><div class="gallery-overlay">🔍</div></div>
+    <div class="gallery-item"><div class="gallery-placeholder" style="background:linear-gradient(135deg,#d4f8e4,#e8fdf0)">🏫</div><div class="gallery-overlay">🔍</div></div>
+    <div class="gallery-item"><div class="gallery-placeholder" style="background:linear-gradient(135deg,#f8d4e8,#fce8f4)">🌺</div><div class="gallery-overlay">🔍</div></div>
   </div>
 </section>
 
@@ -885,7 +262,7 @@
   <div class="timeline fade-in">
     <div class="timeline-item">
       <div class="timeline-content">
-        <div class="timeline-date">Tháng 9 - Năm 1</div>
+        <div class="timeline-date">Tháng 9 · Năm 1</div>
         <div class="timeline-title">Ngày đầu tiên đến lớp</div>
         <div class="timeline-desc">Những bước chân bỡ ngỡ, những ánh mắt dò xét và nụ cười rụt rè. Khởi đầu của hành trình đáng nhớ nhất.</div>
       </div>
@@ -893,7 +270,7 @@
     </div>
     <div class="timeline-item">
       <div class="timeline-content">
-        <div class="timeline-date">Tháng 2 - Năm 2</div>
+        <div class="timeline-date">Tháng 2 · Năm 2</div>
         <div class="timeline-title">Hội trại mùa xuân</div>
         <div class="timeline-desc">Những đêm lửa trại, bài hát và tiếng cười vang dội. Kỷ niệm mà không ai trong lớp có thể quên.</div>
       </div>
@@ -901,15 +278,15 @@
     </div>
     <div class="timeline-item">
       <div class="timeline-content">
-        <div class="timeline-date">Tháng 10 - Năm 2</div>
+        <div class="timeline-date">Tháng 10 · Năm 2</div>
         <div class="timeline-title">Lễ hội 20/10</div>
-        <div class="timeline-desc">Những bông hoa, lời chúc và tiết mục văn nghệ đặc sắc dành tặng các cô thầy yêu quý.</div>
+        <div class="timeline-desc">Những bông hoa, lời chúc và tiết mục văn nghệ dành tặng các cô thầy yêu quý.</div>
       </div>
       <div class="timeline-dot"></div>
     </div>
     <div class="timeline-item">
       <div class="timeline-content">
-        <div class="timeline-date">Tháng 5 - Năm 3</div>
+        <div class="timeline-date">Tháng 5 · Năm 3</div>
         <div class="timeline-title">Lễ tốt nghiệp</div>
         <div class="timeline-desc">Áo dài trắng, tấm bằng trên tay và những giọt nước mắt xúc động. Kết thúc một chương, mở ra trang mới.</div>
       </div>
@@ -917,7 +294,7 @@
     </div>
     <div class="timeline-item">
       <div class="timeline-content">
-        <div class="timeline-date">Tháng 6 - Năm 3</div>
+        <div class="timeline-date">Tháng 6 · Năm 3</div>
         <div class="timeline-title">Chuyến đi cuối năm</div>
         <div class="timeline-desc">Cả lớp cùng nhau một chuyến đi đáng nhớ. Biển xanh, cát trắng và vô vàn kỷ niệm đẹp.</div>
       </div>
@@ -926,7 +303,7 @@
   </div>
 </section>
 
-<!-- PHIM NGẮN -->
+<!-- PHIM NGẮN KỶ NIỆM -->
 <section id="phim-ngan">
   <div class="section-header fade-in">
     <h2 class="section-title">Phim Ngắn Kỷ Niệm</h2>
@@ -948,17 +325,12 @@
     <h2 class="section-title">Những Lời Nhắn Nhủ</h2>
     <div class="section-divider"></div>
   </div>
-  <div class="notes-grid fade-in" id="notes-container">
-    <!-- Notes rendered by JS -->
-  </div>
+  <div class="notes-grid fade-in" id="notes-container"></div>
   <div class="add-note-section fade-in">
-    <button class="add-note-btn" onclick="openModal()">
-      ✏️ Viết lưu bút
-    </button>
+    <button class="add-note-btn" onclick="openModal()">✏️ Viết lưu bút</button>
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <div class="footer-logo">Thanh Xuân</div>
   <p>Trang web kỷ niệm của lớp chúng ta</p>
@@ -979,153 +351,164 @@
   </div>
 </div>
 
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
 <!-- MUSIC PLAYER -->
 <div class="music-player">
   <div class="music-panel" id="music-panel">
-    <div class="music-panel-header">
-      <div class="music-album-art">🎵</div>
-      <div class="music-info">
-        <div class="music-title" id="current-title">Tháng Năm Không Quên</div>
-        <div class="music-controls">
-          <button onclick="prevSong()">⏮</button>
-          <button onclick="togglePlay()" id="play-icon">▶</button>
-          <button onclick="nextSong()">⏭</button>
+    <!-- Now playing -->
+    <div class="mp-header">
+      <div class="mp-art" id="mp-art">🎵</div>
+      <div class="mp-info">
+        <div class="mp-song-name" id="mp-song-name">Tháng Năm Không Quên</div>
+        <div class="mp-controls">
+          <button onclick="prevSong()" title="Bài trước">&#9664;&#9664;</button>
+          <button class="mp-btn-play" onclick="togglePlay()" id="mp-play-btn">&#9654;</button>
+          <button onclick="nextSong()" title="Bài sau">&#9654;&#9654;</button>
         </div>
       </div>
-      <button class="music-close" onclick="togglePanel()">✕</button>
+      <button class="mp-close-btn" onclick="togglePanel()">✕</button>
     </div>
-    <div class="music-playlist" id="playlist"></div>
+    <!-- Playlist -->
+    <div class="mp-playlist" id="mp-playlist"></div>
   </div>
-  <button class="music-btn" onclick="togglePanel()">🎵</button>
+  <button class="music-fab" onclick="togglePanel()">🎵</button>
 </div>
 
 <script>
-// MEMBERS DATA
-const members = [
-  { name: 'Thanh Bình', role: 'Lớp trưởng', emoji: '👸' },
-  { name: 'Thu Ngân', role: 'Lớp phó', emoji: '🌸' },
-  { name: 'Lê Chi', role: 'Học sinh giỏi', emoji: '⭐' },
-  { name: 'An Bình', role: 'Thể thao', emoji: '⚽' },
-  { name: 'Minh Bảo', role: 'Âm nhạc', emoji: '🎸' },
-  { name: 'Linh Hà', role: 'Nghệ thuật', emoji: '🎨' },
-  { name: 'Tuấn Kiệt', role: 'Khoa học', emoji: '🔬' },
-  { name: 'Thanh Thái', role: 'Văn chương', emoji: '📝' },
-  { name: 'Hồng Dung', role: 'Ngoại ngữ', emoji: '🌍' },
-  { name: 'Gia Huy', role: 'Công nghệ', emoji: '💻' },
-  { name: 'Minh Anh', role: 'Toán học', emoji: '📐' },
-  { name: 'Nhật Nam', role: 'Lịch sử', emoji: '📜' },
+/* === MEMBERS === */
+const members=[
+  {name:'Thanh Bình',role:'Lớp trưởng',emoji:'👸'},
+  {name:'Thu Ngân',role:'Lớp phó',emoji:'🌸'},
+  {name:'Lê Chi',role:'Học sinh giỏi',emoji:'⭐'},
+  {name:'An Bình',role:'Thể thao',emoji:'⚽'},
+  {name:'Minh Bảo',role:'Âm nhạc',emoji:'🎸'},
+  {name:'Linh Hà',role:'Nghệ thuật',emoji:'🎨'},
+  {name:'Tuấn Kiệt',role:'Khoa học',emoji:'🔬'},
+  {name:'Thanh Thái',role:'Văn chương',emoji:'📝'},
+  {name:'Hồng Dung',role:'Ngoại ngữ',emoji:'🌍'},
+  {name:'Gia Huy',role:'Công nghệ',emoji:'💻'},
+  {name:'Minh Anh',role:'Toán học',emoji:'📐'},
+  {name:'Nhật Nam',role:'Lịch sử',emoji:'📜'},
 ];
-
-const membersContainer = document.getElementById('members-container');
-members.forEach((m, i) => {
-  const colors = ['#fce8f3,#e8d4f8', '#d4e8f8,#d4f8e8', '#f8f4d4,#f8d4d4', '#d4f8f4,#f4d4f8'];
-  const [c1, c2] = colors[i % colors.length].split(',');
-  membersContainer.innerHTML += `
-    <div class="member-card fade-in" style="animation-delay:${i*0.05}s">
-      <div class="member-photo">
-        <div class="member-photo-placeholder" style="background:linear-gradient(135deg,${c1},${c2})">${m.emoji}</div>
-      </div>
-      <div class="member-name">${m.name}</div>
-      <div class="member-role">${m.role}</div>
-    </div>`;
+const palettes=[['#fce8f3','#e8d4f8'],['#d4e8f8','#d4f8e8'],['#f8f4d4','#f8d4d4'],['#d4f8f4','#f4d4f8']];
+const mc=document.getElementById('members-container');
+members.forEach((m,i)=>{
+  const[c1,c2]=palettes[i%palettes.length];
+  mc.innerHTML+=`<div class="member-card fade-in">
+    <div class="member-photo"><div class="member-photo-placeholder" style="background:linear-gradient(135deg,${c1},${c2})">${m.emoji}</div></div>
+    <div class="member-name">${m.name}</div>
+    <div class="member-role">${m.role}</div>
+  </div>`;
 });
 
-// NOTES DATA
-let notes = [
-  { text: 'Chúc cả lớp thi tốt nhé! Đỗ nguyện vọng 1 nhé', author: 'An Bình' },
-  { text: 'Mãi nhớ những ngày đi học quân sự anh em mãi đình', author: 'Minh Bảo' },
-  { text: 'Thanh xuân có bạn là điều tuyệt vời nhất.', author: 'Linh Hà' },
-  { text: 'Mong rằng mọi người sẽ được thành công của riêng mình', author: 'Thanh Bình' },
-  { text: 'Hãy sống một cuộc đời rực rỡ nhé! Đừng quên nhau nhé', author: 'Lê Chi' },
-  { text: 'Có lớn nhớ mọi người, chúc mọi người thi tốt!', author: 'Thu Ngân' },
-  { text: 'Có thể không đồng hành cùng nhau...nhưng chúng ta đã là một phần trong ký ức của nhau.', author: 'Tuấn Kiệt' },
-  { text: 'Mong sao tương lai chúng ta có thể gặp lại nhau, chúc mọi người thi tốt!', author: 'Thanh Thái' },
-  { text: 'Hẹn gặp lại ở đỉnh vinh quang nhé, lúc hy vọng mọi người sẽ thành công trên con đường mình đã chọn', author: 'Hồng Dung' },
-  { text: 'Chúc chúng ta sau này vẫn giữ được nụ cười như những ngày còn ngồi chung lớp', author: 'Gia Huy' },
+/* === NOTES + LOCALSTORAGE === */
+const STORAGE_KEY='thanhxuan_notes_v1';
+const DEFAULT_NOTES=[
+  {text:'Chúc cả lớp thi tốt nhé! Đỗ nguyện vọng 1 nhé',author:'An Bình'},
+  {text:'Mãi nhớ những ngày đi học quân sự anh em mãi đình',author:'Minh Bảo'},
+  {text:'Thanh xuân có bạn là điều tuyệt vời nhất.',author:'Linh Hà'},
+  {text:'Mong rằng mọi người sẽ được thành công của riêng mình',author:'Thanh Bình'},
+  {text:'Hãy sống một cuộc đời rực rỡ nhé! Đừng quên nhau nhé',author:'Lê Chi'},
+  {text:'Có lớn nhớ mọi người, chúc mọi người thi tốt!',author:'Thu Ngân'},
+  {text:'Có thể không đồng hành cùng nhau...nhưng chúng ta đã là một phần trong ký ức của nhau.',author:'Tuấn Kiệt'},
+  {text:'Mong sao tương lai chúng ta có thể gặp lại nhau, chúc mọi người thi tốt!',author:'Thanh Thái'},
+  {text:'Hẹn gặp lại ở đỉnh vinh quang nhé, lúc hy vọng mọi người sẽ thành công trên con đường mình đã chọn',author:'Hồng Dung'},
+  {text:'Chúc chúng ta sau này vẫn giữ được nụ cười như những ngày còn ngồi chung lớp',author:'Gia Huy'},
+  {text:'Dù mỗi người mỗi con đường, mong rằng ký ức về nhau vẫn luôn ở lại.',author:'Minh Anh'},
+  {text:'Thanh xuân là những ngày có nhau, đơn giản nhưng không bao giờ quay lại.',author:'Nhật Nam'},
 ];
 
-function renderNotes() {
-  const container = document.getElementById('notes-container');
-  container.innerHTML = notes.map((n, i) => `
-    <div class="note-card fade-in" style="animation-delay:${i*0.06}s">
-      <div class="note-text">${n.text}</div>
-      <div class="note-author">– ${n.author}</div>
+function loadNotes(){
+  try{
+    const raw=localStorage.getItem(STORAGE_KEY);
+    if(raw){const arr=JSON.parse(raw);if(arr&&arr.length)return arr;}
+  }catch(e){}
+  // First time: save defaults
+  const defaults=DEFAULT_NOTES.map((n,i)=>({...n,id:i+1}));
+  saveNotes(defaults);
+  return defaults;
+}
+function saveNotes(arr){ try{localStorage.setItem(STORAGE_KEY,JSON.stringify(arr));}catch(e){} }
+
+let notes=loadNotes();
+
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function renderNotes(){
+  const c=document.getElementById('notes-container');
+  c.innerHTML=notes.map(n=>`
+    <div class="note-card fade-in">
+      <div class="note-text">${esc(n.text)}</div>
+      <div class="note-author">– ${esc(n.author)}</div>
     </div>`).join('');
   observeFadeIns();
 }
-
 renderNotes();
 
-// MODAL
-function openModal() {
-  document.getElementById('modal').classList.add('active');
-}
-function closeModal() {
-  document.getElementById('modal').classList.remove('active');
-}
-function addNote() {
-  const name = document.getElementById('note-name').value.trim();
-  const text = document.getElementById('note-text').value.trim();
-  if (!name || !text) return alert('Vui lòng điền đầy đủ thông tin!');
-  notes.push({ text, author: name });
+function openModal(){document.getElementById('modal').classList.add('active');}
+function closeModal(){document.getElementById('modal').classList.remove('active');}
+
+function addNote(){
+  const name=document.getElementById('note-name').value.trim();
+  const text=document.getElementById('note-text').value.trim();
+  if(!name||!text){showToast('Vui lòng điền đầy đủ thông tin! 😊');return;}
+  notes.push({text,author:name,id:Date.now()});
+  saveNotes(notes);
   renderNotes();
   closeModal();
-  document.getElementById('note-name').value = '';
-  document.getElementById('note-text').value = '';
+  document.getElementById('note-name').value='';
+  document.getElementById('note-text').value='';
+  setTimeout(()=>{
+    document.getElementById('luu-but').scrollIntoView({behavior:'smooth',block:'end'});
+    showToast('Lưu bút đã được lưu lại mãi mãi! 💌');
+  },200);
 }
 
-document.getElementById('modal').addEventListener('click', function(e) {
-  if (e.target === this) closeModal();
-});
+document.getElementById('modal').addEventListener('click',function(e){if(e.target===this)closeModal();});
 
-// MUSIC PLAYER
-const songs = [
-  'Tháng Năm Không Quên',
-  'Năm Tháng Trôi Qua',
-  'Nhớ Mãi Chuyến Đi Này',
-  'Tuổi Thanh Xuân',
-  'Mái Trường Thân Yêu',
+/* === TOAST === */
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+/* === MUSIC PLAYER === */
+const songs=[
+  {name:'Tháng Năm Không Quên',emoji:'🌿'},
+  {name:'Năm Tháng Trôi Qua',emoji:'🌸'},
+  {name:'Nhớ Mãi Chuyến Đi Này',emoji:'⛺'},
+  {name:'Tuổi Thanh Xuân',emoji:'🌟'},
+  {name:'Mái Trường Thân Yêu',emoji:'🏫'},
+  {name:'Kỷ Niệm Xưa',emoji:'📷'},
 ];
+let curSong=0,playing=false;
 
-let currentSong = 0;
-let playing = false;
-
-const playlist = document.getElementById('playlist');
-function renderPlaylist() {
-  playlist.innerHTML = songs.map((s, i) => `
-    <div class="playlist-item ${i===currentSong?'active':''}" onclick="selectSong(${i})">
-      <div class="playlist-thumb">🎵</div>
-      <div class="playlist-name">${s}</div>
+function renderPlaylist(){
+  document.getElementById('mp-playlist').innerHTML=songs.map((s,i)=>`
+    <div class="mp-item${i===curSong?' active':''}" onclick="selectSong(${i})">
+      <div class="mp-thumb">${s.emoji}</div>
+      <div class="mp-item-name">${s.name}</div>
     </div>`).join('');
 }
-renderPlaylist();
-
-function togglePanel() {
-  document.getElementById('music-panel').classList.toggle('open');
+function updateHeader(){
+  document.getElementById('mp-song-name').textContent=songs[curSong].name;
+  document.getElementById('mp-art').textContent=songs[curSong].emoji;
+  document.getElementById('mp-play-btn').innerHTML=playing?'&#9646;&#9646;':'&#9654;';
 }
+function togglePanel(){document.getElementById('music-panel').classList.toggle('open');}
+function togglePlay(){playing=!playing;updateHeader();}
+function selectSong(i){curSong=i;playing=true;renderPlaylist();updateHeader();}
+function nextSong(){selectSong((curSong+1)%songs.length);}
+function prevSong(){selectSong((curSong-1+songs.length)%songs.length);}
+renderPlaylist();updateHeader();
 
-function togglePlay() {
-  playing = !playing;
-  document.getElementById('play-icon').textContent = playing ? '⏸' : '▶';
-}
-
-function selectSong(i) {
-  currentSong = i;
-  document.getElementById('current-title').textContent = songs[i];
-  playing = true;
-  document.getElementById('play-icon').textContent = '⏸';
-  renderPlaylist();
-}
-
-function nextSong() { selectSong((currentSong+1) % songs.length); }
-function prevSong() { selectSong((currentSong-1+songs.length) % songs.length); }
-
-// SCROLL ANIMATIONS
-function observeFadeIns() {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+/* === SCROLL FADE === */
+function observeFadeIns(){
+  const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.08});
+  document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
 }
 observeFadeIns();
 </script>
