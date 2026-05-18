@@ -121,10 +121,54 @@
   .gallery-item { border-radius:12px;overflow:hidden;cursor:pointer;position:relative;transition:transform 0.3s; }
   .gallery-item:hover { transform:scale(1.02); }
   .gallery-item:nth-child(1) { grid-column:span 2; }
-  .gallery-placeholder { width:100%;height:220px;display:flex;align-items:center;justify-content:center;font-size:2rem; }
+
+  /* placeholder khi chưa có ảnh */
+  .gallery-placeholder { width:100%;height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;font-size:2rem; }
+  .gallery-placeholder span { font-size:0.8rem;color:#bbb;font-family:'Quicksand',sans-serif; }
   .gallery-item:nth-child(1) .gallery-placeholder { height:280px; }
-  .gallery-overlay { position:absolute;inset:0;background:rgba(180,120,220,0);display:flex;align-items:center;justify-content:center;transition:all 0.3s;font-size:1.5rem;color:white;opacity:0; }
-  .gallery-item:hover .gallery-overlay { background:rgba(180,120,220,0.3);opacity:1; }
+
+  /* ảnh thật */
+  .gallery-item img.gallery-real {
+    width:100%;height:220px;object-fit:cover;display:block;
+    transition:transform 0.4s;
+  }
+  .gallery-item:nth-child(1) img.gallery-real { height:280px; }
+  .gallery-item:hover img.gallery-real { transform:scale(1.05); }
+
+  .gallery-overlay { position:absolute;inset:0;background:rgba(180,120,220,0);display:flex;align-items:center;justify-content:center;transition:all 0.3s;font-size:1.8rem;color:white;opacity:0; }
+  .gallery-item:hover .gallery-overlay { background:rgba(180,120,220,0.35);opacity:1; }
+
+  /* LIGHTBOX */
+  .lightbox {
+    position:fixed;inset:0;z-index:2000;
+    background:rgba(0,0,0,0.92);
+    display:flex;align-items:center;justify-content:center;
+    opacity:0;pointer-events:none;transition:opacity 0.3s;
+  }
+  .lightbox.open { opacity:1;pointer-events:all; }
+  .lightbox-img {
+    max-width:88vw;max-height:88vh;
+    border-radius:12px;
+    box-shadow:0 30px 80px rgba(0,0,0,0.5);
+    object-fit:contain;
+    transition:transform 0.3s;
+  }
+  .lightbox-close {
+    position:absolute;top:20px;right:24px;
+    background:rgba(255,255,255,0.15);border:none;border-radius:50%;
+    width:40px;height:40px;color:white;font-size:1.1rem;cursor:pointer;
+    transition:background 0.2s;
+  }
+  .lightbox-close:hover { background:rgba(255,255,255,0.3); }
+  .lightbox-prev,.lightbox-next {
+    position:absolute;top:50%;transform:translateY(-50%);
+    background:rgba(255,255,255,0.12);border:none;border-radius:50%;
+    width:48px;height:48px;color:white;font-size:1.8rem;cursor:pointer;
+    transition:background 0.2s;display:flex;align-items:center;justify-content:center;
+  }
+  .lightbox-prev { left:20px; }
+  .lightbox-next { right:20px; }
+  .lightbox-prev:hover,.lightbox-next:hover { background:rgba(255,255,255,0.25); }
 
   /* TIMELINE */
   #dong-thoi-gian { background: white; }
@@ -226,20 +270,6 @@
   .fade-in { opacity:0;transform:translateY(30px);transition:opacity 0.6s ease,transform 0.6s ease; }
   .fade-in.visible { opacity:1;transform:translateY(0); }
 
-  /* Photo upload hint overlay */
-  .photo-upload-hint {
-    position:absolute;bottom:0;left:0;right:0;
-    background:rgba(0,0,0,0.45);
-    color:white;font-size:0.75rem;font-weight:600;
-    text-align:center;padding:6px 4px;
-    opacity:0;transition:opacity 0.25s;
-    border-radius:0 0 16px 16px;
-  }
-  .member-card:hover .photo-upload-hint,
-  .teacher-card:hover .photo-upload-hint { opacity:1; }
-  .member-card { cursor:pointer; }
-  .teacher-card { cursor:pointer; }
-
   /* Note action buttons */
   .note-actions {
     position:absolute;top:6px;right:28px;
@@ -305,15 +335,16 @@
     <h2 class="section-title">Khoảnh Khắc Đáng Nhớ</h2>
     <div class="section-divider"></div>
   </div>
-  <div class="gallery-grid fade-in">
-    <div class="gallery-item"><div class="lop91.jpg" style="lop91.jpg"></div><div class="gallery-overlay">🔍</div></div>
-    <div class="gallery-item"><div class="gallery-placeholder" style="background:linear-gradient(135deg,#f8e4d4,#fce8f0)">🌸</div><div class="gallery-overlay">🔍</div></div>
-    <div class="gallery-item"><div class="gallery-placeholder" style="background:linear-gradient(135deg,#d4e8f8,#e4f0fc)">📚</div><div class="gallery-overlay">🔍</div></div>
-    <div class="gallery-item"><div class="gallery-placeholder" style="background:linear-gradient(135deg,#f8f4d4,#fdf8e8)">🎉</div><div class="gallery-overlay">🔍</div></div>
-    <div class="gallery-item"><div class="gallery-placeholder" style="background:linear-gradient(135deg,#d4f8e4,#e8fdf0)">🏫</div><div class="gallery-overlay">🔍</div></div>
-    <div class="gallery-item"><div class="gallery-placeholder" style="background:linear-gradient(135deg,#f8d4e8,#fce8f4)">🌺</div><div class="gallery-overlay">🔍</div></div>
-  </div>
+  <div class="gallery-grid fade-in" id="gallery-container"></div>
 </section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <button class="lightbox-prev" onclick="event.stopPropagation();lightboxNav(-1)">&#8249;</button>
+  <img class="lightbox-img" id="lightbox-img" src="" alt="">
+  <button class="lightbox-next" onclick="event.stopPropagation();lightboxNav(1)">&#8250;</button>
+</div>
 
 <!-- DÒNG THỜI GIAN -->
 <section id="dong-thoi-gian">
@@ -439,6 +470,84 @@
 </div>
 
 <script>
+/* === GALLERY === */
+// Đặt ảnh cùng thư mục: gallery_1.jpg, gallery_2.jpg, ... gallery_N.jpg
+// Thay đổi GALLERY_COUNT nếu muốn nhiều/ít ảnh hơn
+const GALLERY_COUNT = 6;
+const GALLERY_EMOJIS = ['🎓','🌸','📚','🎉','🏫','🌺'];
+const GALLERY_GRADS = [
+  'linear-gradient(135deg,#e8d4f8,#f0e8ff)',
+  'linear-gradient(135deg,#f8e4d4,#fce8f0)',
+  'linear-gradient(135deg,#d4e8f8,#e4f0fc)',
+  'linear-gradient(135deg,#f8f4d4,#fdf8e8)',
+  'linear-gradient(135deg,#d4f8e4,#e8fdf0)',
+  'linear-gradient(135deg,#f8d4e8,#fce8f4)',
+];
+const GALLERY_LABELS = ['Lễ tốt nghiệp','Ngày hội trường','Giờ học vui','Tiệc lớp','Kỷ niệm','Hoa phượng'];
+
+let galleryLoaded = []; // lưu src ảnh nào load được để lightbox dùng
+let lightboxIdx = 0;
+
+function renderGallery(){
+  const gc = document.getElementById('gallery-container');
+  gc.innerHTML = '';
+  galleryLoaded = [];
+  let pending = GALLERY_COUNT;
+
+  for(let i=1; i<=GALLERY_COUNT; i++){
+    const div = document.createElement('div');
+    div.className = 'gallery-item';
+    const idx = i;
+    const emoji = GALLERY_EMOJIS[(i-1)%GALLERY_EMOJIS.length];
+    const grad = GALLERY_GRADS[(i-1)%GALLERY_GRADS.length];
+
+    // placeholder mặc định
+    div.innerHTML = `<div class="gallery-placeholder" style="background:${grad}">${emoji}<span>gallery_${idx}.jpg</span></div><div class="gallery-overlay">🔍</div>`;
+
+    // thử load ảnh
+    const img = new Image();
+    img.onload = function(){
+      div.innerHTML = `<img class="gallery-real" src="${img.src}" alt="Khoảnh khắc ${idx}"><div class="gallery-overlay">🔍</div>`;
+      div.onclick = () => openLightbox(img.src);
+      galleryLoaded.push(img.src);
+    };
+    img.onerror = function(){
+      // thử .png, rồi .webp
+      if(!img._tried){ img._tried=1; img.src=`gallery_${idx}.png`; }
+      else if(img._tried===1){ img._tried=2; img.src=`gallery_${idx}.webp`; }
+      else if(img._tried===2){ img._tried=3; img.src=`gallery_${idx}.jpeg`; }
+      // nếu tất cả thất bại → giữ placeholder
+    };
+    img.src = `gallery_${idx}.jpg`;
+
+    gc.appendChild(div);
+  }
+}
+renderGallery();
+
+function openLightbox(src){
+  lightboxIdx = galleryLoaded.indexOf(src);
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeLightbox(){
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow='';
+}
+function lightboxNav(dir){
+  if(!galleryLoaded.length) return;
+  lightboxIdx = (lightboxIdx+dir+galleryLoaded.length)%galleryLoaded.length;
+  document.getElementById('lightbox-img').src = galleryLoaded[lightboxIdx];
+}
+document.addEventListener('keydown',function(e){
+  const lb=document.getElementById('lightbox');
+  if(!lb.classList.contains('open')) return;
+  if(e.key==='Escape') closeLightbox();
+  if(e.key==='ArrowRight') lightboxNav(1);
+  if(e.key==='ArrowLeft') lightboxNav(-1);
+});
+
 /* === MEMBERS + PHOTO UPLOAD === */
 const teacher = {name:'Cô Nguyễn Thị Hương', subject:'Giáo viên chủ nhiệm', emoji:'👩‍🏫'};
 const members=[
@@ -463,30 +572,21 @@ const members=[
 ];
 const palettes=[['#fce8f3','#e8d4f8'],['#d4e8f8','#d4f8e8'],['#f8f4d4','#f8d4d4'],['#d4f8f4','#f4d4f8']];
 
-// Load photo from localStorage by key "anh_N" (0=teacher, 1-36=students)
-function getPhoto(idx){ try{return localStorage.getItem('anh_'+idx)||null;}catch(e){return null;} }
-function savePhoto(idx,dataUrl){ try{localStorage.setItem('anh_'+idx,dataUrl);}catch(e){showToast('Ảnh quá lớn, thử ảnh nhỏ hơn nhé!');} }
+// Ảnh được đặt cùng thư mục với file HTML:
+//   anh_0.jpg  → giáo viên
+//   anh_1.jpg  → học sinh 1
+//   ...
+//   anh_36.jpg → học sinh 36
+// Hỗ trợ cả .jpg .jpeg .png .webp — thử lần lượt
+const IMG_EXTS = ['jpg','jpeg','png','webp'];
 
-function photoHTML(idx, fallbackEmoji, fallbackGrad){
-  const src=getPhoto(idx);
-  if(src) return `<img src="${src}" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;" alt="">`;
-  return `<div class="member-photo-placeholder" style="background:${fallbackGrad}">${fallbackEmoji}</div>`;
-}
-
-function triggerUpload(idx){
-  const inp=document.createElement('input');
-  inp.type='file'; inp.accept='image/*';
-  inp.onchange=function(){
-    const file=inp.files[0]; if(!file) return;
-    const reader=new FileReader();
-    reader.onload=function(e){
-      savePhoto(idx, e.target.result);
-      renderMembers();
-      showToast('Đã cập nhật ảnh! 📷');
-    };
-    reader.readAsDataURL(file);
-  };
-  inp.click();
+function memberImgHTML(idx, fallbackEmoji, fallbackGrad){
+  // Tạo <img> với onerror fallback qua các đuôi, cuối cùng hiện emoji
+  const tryNext = `this.__ext=(this.__ext||0)+1;if(this.__ext<${IMG_EXTS.length}){this.src='anh_${idx}.'+['${IMG_EXTS.join("','")}'][this.__ext];}else{this.style.display='none';this.nextElementSibling.style.display='flex';}`;
+  return `<img src="anh_${idx}.${IMG_EXTS[0]}"
+      style="width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block"
+      onerror="${tryNext}" alt="${idx}">
+    <div class="member-photo-placeholder" style="background:${fallbackGrad};display:none">${fallbackEmoji}</div>`;
 }
 
 function renderMembers(){
@@ -495,10 +595,11 @@ function renderMembers(){
   // Teacher (idx=0)
   const tGrad='linear-gradient(135deg,#f0d4f8,#d4e8f8)';
   mc.innerHTML=`<div class="teacher-wrapper fade-in">
-    <div class="teacher-card" onclick="triggerUpload(0)" title="Nhấn để thêm ảnh">
-      <div class="teacher-photo" style="position:relative">
-        <div style="width:100%;height:100%">${photoHTML(0,teacher.emoji,tGrad)}</div>
-        <div class="photo-upload-hint">📷 Thêm ảnh</div>
+    <div class="teacher-card">
+      <div class="teacher-photo">
+        <div style="width:100%;height:100%;overflow:hidden;border-radius:inherit">
+          ${memberImgHTML(0, teacher.emoji, tGrad)}
+        </div>
       </div>
       <div class="teacher-name">${teacher.name}</div>
       <span class="teacher-badge">${teacher.subject}</span>
@@ -510,13 +611,13 @@ function renderMembers(){
     const idx=i+1;
     const[c1,c2]=palettes[i%palettes.length];
     const grad=`linear-gradient(135deg,${c1},${c2})`;
-    mc.innerHTML+=`<div class="member-card fade-in" onclick="triggerUpload(${idx})" title="Nhấn để thêm ảnh">
-      <div class="member-photo" style="position:relative">
-        <div style="width:100%;height:100%">${photoHTML(idx,m.emoji,grad)}</div>
-        <div class="photo-upload-hint">📷 Thêm ảnh</div>
+    mc.innerHTML+=`<div class="member-card fade-in">
+      <div class="member-photo">
+        <div style="width:100%;height:100%;overflow:hidden;border-radius:inherit">
+          ${memberImgHTML(idx, m.emoji, grad)}
+        </div>
       </div>
       <div class="member-name">${m.name}</div>
-      <div class="member-role" style="font-size:0.75rem;color:#bbb">Ảnh ${idx}</div>
     </div>`;
   });
   observeFadeIns();
